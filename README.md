@@ -45,13 +45,13 @@ pip install -r requirements.txt
 
 ## Configuration
 
-The `config.ini` file contains the configuration details for the Reddit API and DuckDB.\
+The `config.ini` file contains the configuration details for the Reddit API and DuckDB and other properties related to the pileline.\
 Update the file as per requirement.
 
 ## How to Run the main data pipeline
 
 Go to repo root location and replace your python.exe location.\
-execute the main script `reddit_to_duckdb_etl.py` using the following command:
+Execute the main script `reddit_to_duckdb_etl.py` using the following command:
 
 
 ```bash
@@ -70,7 +70,7 @@ Add queries in `config.ini` file
 ## How to Debug
 
 To enable debug logs, modify the logging configuration in each module by setting the log level to `DEBUG` in `config.ini`.\
-For example:
+
 ```
 level = DEBUG
 ```
@@ -81,22 +81,21 @@ level = DEBUG
 
 This project uses unit testcases for testing. To run all tests, use the following command:
 
-For unittest:
 ```bash
 pytest tests
 ```
 
 Add more tests in the `tests` directory to ensure the functionality of the ETL process.
 
-## SQL Query Analysis
+# SQL Query Analysis
 
-# What is the average number of threads by day of week?
+## What is the average number of threads by day of week?
 ```
 SELECT day,ROUND(COUNT(*)/COUNT(DISTINCT created_date),2) AS average_threads 
 FROM reddit_posts 
 GROUP BY day;
 ```
-# Which thread has the highest engagement?
+## Which thread has the highest engagement?
 
 ```
 SELECT author, title, ups, downs, num_comments
@@ -104,7 +103,7 @@ FROM reddit_posts
 ORDER BY ups + downs + num_comments DESC 
 LIMIT 1;
 ```
-# Which thread is the most controversial one?
+## Which thread is the most controversial one?
 
 ```
 SELECT title, author, ups, downs, ROUND((ups * downs) / (ups + downs),2) AS controversial_score
